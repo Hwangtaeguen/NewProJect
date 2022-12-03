@@ -20,6 +20,7 @@ const[ addPass, setAddPass ]=useState("");
 const[ addName, setAddname ]=useState("");
 const[ addAge, setAddage ]=useState("");
 const[ selected, setSelected ] = useState("");
+const[ score, setscore ] = useState("0");
 
 const sinup = () => {
 
@@ -31,12 +32,13 @@ createUserWithEmailAndPassword(auth,addID,addPass)
     const user = userCredential.user;//인증용
     console.log(user.addID);//인증용
 
-    addDoc(userCollectionRef,// 스토어용
+    setDoc(doc(db,"userInfo",addID),// 스토어용
     { 
       학생이름: addName,
       학번: addAge,
       아이디:addID,
-      비밀번호:addPass,
+      점수:score,
+
     });
 
     setAddname("")
@@ -49,7 +51,6 @@ createUserWithEmailAndPassword(auth,addID,addPass)
     const errorMessage = error.message;
     console.log(errorMessage);
     console.log(errorCode);
-    
   });
 }
 
