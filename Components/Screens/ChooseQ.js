@@ -1,6 +1,5 @@
-import { View, Button, Text, TextInput, StyleSheet, Image } from 'react-native';
+import { View, Button, Text, TextInput, StyleSheet, Image, TouchableOpacity  } from 'react-native';
 import { useEffect, useState } from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { db } from '../../firebase';
 import { addDoc, collection, doc, getDocs } from 'firebase/firestore';

@@ -1,6 +1,5 @@
-import { View, Button, Text, TextInput, StyleSheet, Image, Alert, ToastAndroid } from 'react-native';
+import { View, Button, Text, TextInput, StyleSheet, Image, Alert, ToastAndroid, TouchableOpacity} from 'react-native';
 import { useEffect, useState } from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { db } from '../../firebase';
 import { addDoc, collection, doc, getDocs, query, where, getDoc, } from 'firebase/firestore';
@@ -15,7 +14,7 @@ const Solve = () => {
   const [text, setText] = useState("")
   const [show, setShow] = useState(false);
   const [promts, setPromts] = useState("");
-  const [Countstep, setCountstep] = useState();
+  const [Countstep, setCountstep] = useState(0);
   const [Confirmation, setConfirmation] = useState("");
   const [End, setEnd] = useState("");
   const [UpdatePoint, setUpdatePoint] = useState(false);
@@ -90,7 +89,7 @@ const Solve = () => {
     } else {                                            //가져온 정답이 Object 이외, 문자열 등일 경우
       if (A == "") {                                        //빈 문자열이 정답이면 무조건 정답 처리 (모든 답이 정답일 경우)
         setShow(true)
-      } else if (state === A) {                             //문자열이 정답이면 문자열과 같아야 정답 처리
+      } else if (state === A) {                              //문자열이 정답이면 문자열과 같아야 정답 처리
         setShow(true)
       } else {                                              //위의 두가지에 해당하지 않으면 오답 처리
         setShow(false)
@@ -153,6 +152,7 @@ const Solve = () => {
   const TFview = () => {
     if (End === "Answered") {
       console.log("Already answered.")
+      stepCount = Countstep;
       return (<Done />)
     } else if (state === "Solving" && Countstep === stepCount) {
       return (<Done />)
@@ -263,6 +263,7 @@ const Solve = () => {
       updatePoint()
     }
   }, [UpdatePoint])
+ 
 
 //*🖼️Visible screen*//
   return (
@@ -272,7 +273,10 @@ const Solve = () => {
           <Text style={styles.Header}>{route.params.title}</Text>
           <Text style={styles.text}>{route.params.mainQ}</Text>
         </View>
-        <Text style={{ marginTop: 20, fontSize: 17, marginLeft:15, marginRight:15, }}>{promts}</Text>
+        <View style={styles.stepbox}>
+          <Text style={styles.stepHeader}>STEP {stepCount}/{Countstep}</Text>
+          <Text style={styles.steptext}>{promts}</Text>
+        </View>
         {true && <TextInput
           style={styles.input}
           placeholder="Write your answer"
@@ -316,6 +320,39 @@ const styles = StyleSheet.create({
     backgroundColor: "#C9E1FF",
     width: 330,
     height: 50,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    overflow: "hidden",
+    backgrountRadius: 8,
+    borderColor: "#C9E1FF",
+    borderWidth: 1,
+    borderRadius: 20,
+  },
+  stepbox: {
+    marginTop: 20,
+    alignItems: 'center',
+    backgroundColor: "#F9F8F8",
+    width: 330,
+    height: 150,
+    backgrountRadius: 8,
+    borderColor: "#C9E1FF",
+    borderWidth: 3,
+    borderRadius: 20,
+  },
+  steptext: {
+    marginTop: 23,
+    marginLeft: 23,
+    marginRight: 23,
+    fontSize: 14,
+    textAlign: 'center'
+  },
+  stepHeader: {
+    marginTop: 0,
+    fontSize: 17,
+    padding: 5,
+    backgroundColor: "#C9E1FF",
+    width: 330,
+    height: 35,
     textAlign: 'center',
     fontWeight: 'bold',
     overflow: "hidden",

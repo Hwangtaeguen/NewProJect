@@ -1,4 +1,4 @@
-import { View, Button, Text, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, Button, Text, TextInput, StyleSheet, KeyboardAvoidingView,TouchableOpacity } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
 import { addDoc, collection, doc, getDocs, query, where } from 'firebase/firestore';
@@ -6,7 +6,6 @@ import { db } from '../../firebase';
 import { useNavigation } from '@react-navigation/native';
 import { async } from '@firebase/util';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 //*🚩StartQ View*//
 //*모드별로 다른 화면 구성*//
