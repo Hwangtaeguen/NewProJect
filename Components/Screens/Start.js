@@ -10,7 +10,7 @@ const Start = (props) => {
     const [name, setName] = useState();
     const navigation = useNavigation();
     const route = useRoute();
-    const UserEmail = route.params.useremail;
+    const UserEmail = route.params.username;
 
     //*function: getName
     //Auth로 이메일을 받고, 이메일을 통해 유저 이름을 갖고오는 함수
