@@ -48,7 +48,7 @@ const StartQ = (props) => {
   if (mode === "Question") {
     content =
       <KeyboardAwareScrollView scrollEnabled={true} behavior='padding'>
-        <View>
+        <View style={{alignItems:'center'}}>
           <Main
             mode={mode}
             setmode={setmode} />
@@ -58,7 +58,7 @@ const StartQ = (props) => {
   } else if (mode === "Answer") {
     content =
       <KeyboardAwareScrollView scrollEnabled={true} behavior='padding'>
-        <View>
+        <View style={{alignItems:'center'}}>
           <Main
             mode={mode}
             setmode={setmode} />
@@ -69,7 +69,7 @@ const StartQ = (props) => {
   } else if (mode === "Answered") {
     content =
       <KeyboardAwareScrollView scrollEnabled={true} behavior='padding'>
-        <View>
+        <View style={{alignItems:'center'}}>
           <Done Answer={Answer} />
         </View>
       </KeyboardAwareScrollView>

@@ -83,6 +83,7 @@ const Solve = () => {
         } else {
           console.log("문자열이 같지 않습니다. 오답")
           setShow(false)
+          return
         }
       }
 

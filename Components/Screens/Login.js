@@ -10,11 +10,7 @@ import Home from './Home';
 import Start from './Start';
 import { useNavigation } from '@react-navigation/native';
 
-class DB {
-  constructor() {
-    useremail = addID
-  }
-}
+
 const Logins = (props) => {
   const navigation = useNavigation();
   const [addID, setAddID] = useState("");

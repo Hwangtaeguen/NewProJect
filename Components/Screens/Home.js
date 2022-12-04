@@ -2,9 +2,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { View, Button, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput, Image } from 'react-native';
 import { getAuth, signOut } from "firebase/auth";
 import { async } from '@firebase/util';
-import { addDoc, collection, doc, getDocs, query, where, getDoc, } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, query, where, getDoc, update, updateDoc} from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { db } from '../../firebase'
+import { db, Fbase } from '../../firebase'
 
 //📁이미지 URL 객체
 const imageURL = {
@@ -77,6 +77,21 @@ const Home = (props) => {
         }
     }
 
+    //⚙️function : Addpoints
+    //DB userInfo 컬렉션의 '점수' 필드를 환산한 전체 점수로 업데이트 하는 함수
+    const Addpoints = async () => {
+        const docRef = doc(db, "userInfo", route.params.useremail)
+
+        try {
+            await updateDoc(docRef, {점수: mypoints})
+            console.log("updated total points")
+        } catch (error) {
+            console.log(error)
+            console.log('ERROR: in Addpoints')
+        }
+    }
+
+
     //⚙️function: initPoints
     //로그아웃 시 Poins객체 초기화
     const initPoints = () => {
@@ -87,11 +102,17 @@ const Home = (props) => {
         console.log(Points)
     }
 
-    //☎️call function
+    //☎️call function: 인위적 rendering
     useEffect(() => {
         initPoints()
         getPoints()
-    },[forRender])
+    }, [forRender])
+
+    //☎️call function: mypoints가 바뀔 때
+    useEffect(() => {
+        Addpoints()
+    }, [mypoints])
+
 
     //*♾️Choose View*//
     //TouchableOpacity(클릭에 반응하는) 캐릭터 생성 컴포넌트
@@ -121,7 +142,7 @@ const Home = (props) => {
     //*🖼️Visible screen*//
     return (
         <View style={styles.HomeView}>
-            <View style={{ flexDirection:'row'}}>
+            <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity style={styles.button} onPress={() => { setRender(Date()) }}><Text style={styles.btntext}>Reset Points</Text></TouchableOpacity>
                 <TouchableOpacity style={styles.logout} onPress={() => { initPoints(); signOut(auth); navigation.reset({ routes: [{ name: 'Login' }] }); }}><Text style={styles.btntext}>Logout</Text></TouchableOpacity ></View>
             <ScrollView>
@@ -237,15 +258,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: 165,
         height: 40,
-        margin:11,
-        justifyContent:'center',
-        alignContent:'center',
+        margin: 11,
+        justifyContent: 'center',
+        alignContent: 'center',
 
     }, btntext: {
         fontSize: 18,
         fontWeight: 'bold',
         color: "#FFF",
-        
+
 
     }, logout: {
         backgroundColor: '#4D96FF',
@@ -257,9 +278,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: 165,
         height: 40,
-        margin:11,
-        justifyContent:'center',
-        alignContent:'center',
+        margin: 11,
+        justifyContent: 'center',
+        alignContent: 'center',
     },
 });
 
